@@ -32,6 +32,7 @@ import CreateProduct from './Pages/AdminCreateProduct';
 import UpdateProduct from './Pages/UpdateProduct';
 import AnnouncementPage from './Components/AnnouncementPage';
 import AdminUsers from './Pages/AdminUsers';
+import MyProfile from './Pages/MyProfile';
 
 // Layout wrapper to handle conditional header/footer
 function Layout({ children }) {
@@ -62,6 +63,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           {/* <Route path='/collection' element={<Collection />} /> */}

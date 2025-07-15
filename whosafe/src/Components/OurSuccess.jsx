@@ -43,28 +43,57 @@ import Success from "../assets/Success.png";
 const stats = [
   {
     image: User,
-    number: "15K+",
-    label: "Number Of Customers",
+    number: "25K+",
+    label: "Happy Customers",
   },
   {
     image: Success,
-    number: "75%",
-    label: "Percentage Of Success",
+    number: "85%",
+    label: "Customer Retention Rate",
   },
   {
     image: User,
-    number: "8K+",
-    label: "Returning Customers",
+    number: "10K+",
+    label: "Watching in Shop",
   },
   {
     image: Success,
-    number: "95%",
-    label: "Customer Satisfaction",
+    number: "98%",
+    label: "On-Time Delivery",
+  },
+  {
+    image: User,
+    number: "4.9/5",
+    label: "Average User Rating",
+  },
+  {
+    image: Success,
+    number: "120+",
+    label: "Countries Served",
+  },
+  {
+    image: User,
+    number: "60%",
+    label: "Monthly Active Users",
+  },
+  {
+    image: Success,
+    number: "30K+",
+    label: "Total Orders",
+  },
+  {
+    image: User,
+    number: "40%",
+    label: "Revenue Growth (YoY)",
+  },
+  {
+    image: Success,
+    number: "100+",
+    label: "Team Members Worldwide",
   },
 ];
 
 const OurSuccess = () => {
-  // Duplicate 3x to ensure there's enough content width to fill loop
   const loopStats = [...stats, ...stats, ...stats];
 
   return (
@@ -101,13 +130,18 @@ const OurSuccess = () => {
           <div
             className="flex gap-8 w-max"
             style={{
-              animation: 'slideLoop 30s linear infinite',
+              animation: 'slideLoop 50s linear infinite',
             }}
           >
             {loopStats.map((item, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="flex flex-col items-center bg-[#5A5A5A] px-10 py-8 rounded-2xl shadow-xl min-w-[280px]"
+                whileHover={{
+                  scale: 1.07,
+                  boxShadow: "0px 8px 20px rgba(255, 255, 255, 0.3)"
+                }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center bg-[#5A5A5A] px-10 py-8 rounded-2xl shadow-xl min-w-[280px] cursor-pointer"
               >
                 <img
                   src={item.image}
@@ -116,7 +150,7 @@ const OurSuccess = () => {
                 />
                 <p className="text-3xl font-bold">{item.number}</p>
                 <p className="text-sm mt-2 text-gray-300">{item.label}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

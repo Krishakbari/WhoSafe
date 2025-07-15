@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken"
 import { comparedPassword, hashPassword } from "../helpers/authHelpers.js"
 import userModel from "../models/userModel.js"
+import crypto from "crypto";
+
 
 export const registerController = async (req, res) => {
     try {
@@ -45,7 +47,7 @@ export const registerController = async (req, res) => {
 
         // register user
         const hashedPassword = await hashPassword(password)
-        const user = await new userModel({ name, email, phone, address1, address2, pincode, area, lastName, password: hashedPassword, }).save()
+        const user = await new userModel({ name, email, phone, address1, address2, pincode, area, lastName, password: hashedPassword }).save()
         res.status(200).send({
             success: true,
             message: "registration successfull",
@@ -61,6 +63,7 @@ export const registerController = async (req, res) => {
         });
     }
 }
+
 
 // LOGIN
 export const loginController = async (req, res) => {

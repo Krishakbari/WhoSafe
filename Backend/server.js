@@ -81,6 +81,7 @@ app.get("/logout", (req, res) => {
 app.use("/product", productRoute);
 app.use("/auth", userRoute);
 app.use("/auth", authRoute);
+
 app.use("/cart", cartRoute);
 app.use("/blog", blogRoute);
 app.use("/order", orderRoute);

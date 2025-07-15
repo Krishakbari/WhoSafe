@@ -268,6 +268,15 @@ const Header = () => {
                       <button
                         onClick={() => {
                           setShowDropdown(false);
+                          navigate('/my-profile');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-100"
+                      >
+                        My Profile
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowDropdown(false);
                           handleLogout();
                         }}
                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-100"
