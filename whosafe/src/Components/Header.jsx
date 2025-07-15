@@ -74,7 +74,7 @@ const Header = () => {
                   : "text-gray-700 hover:text-pink-600 transition"
               }
             >
-              About
+              Home
             </NavLink>
             {/* <NavLink
               to="/collection"
@@ -141,7 +141,7 @@ const Header = () => {
                   : "text-gray-700 hover:text-pink-600 transition"
               }
             >
-              About
+              Home
             </NavLink>
             {/* <NavLink
               to="/collection"
