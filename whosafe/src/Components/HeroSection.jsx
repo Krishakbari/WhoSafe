@@ -72,7 +72,7 @@
 
 //   useEffect(() => {
 //     controls.start({
-//       x: ["-100vw", "50vw", "0"],
+//       x: ["-100vw", "0"],
 //       scale: [1.5, 1.2, 1],
 //       boxShadow: [
 //         "0px 0px 0px rgba(0,0,0,0)",
@@ -180,9 +180,6 @@
 // export default Hero;
 
 
-
-
-// this is with when i see that page
 import React, { useEffect, useState, useRef } from 'react';
 import { FaFacebookF, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
@@ -192,14 +189,13 @@ import TransWoman from "../assets/TransWoman.png";
 
 const Hero = ({ scrollToRef }) => {
   const controls = useAnimation();
-  const [buttonVisible, setButtonVisible] = useState(false);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
 
   useEffect(() => {
     if (isInView) {
       controls.start({
-        x: ["-100vw", "50vw", "0"],
+        x: ["-100vw", "0"],
         scale: [1.5, 1.2, 1],
         boxShadow: [
           "0px 0px 0px rgba(0,0,0,0)",
@@ -211,7 +207,6 @@ const Hero = ({ scrollToRef }) => {
           ease: "easeOut"
         },
       });
-      setButtonVisible(true);
     }
   }, [controls, isInView]);
 
@@ -239,42 +234,15 @@ const Hero = ({ scrollToRef }) => {
           Every woman has the right to live, work, travel, and thrive without fear.
         </p>
 
-        <div className="relative w-full flex justify-center lg:justify-start">
+        <div className="w-full flex justify-center lg:justify-start">
           <motion.button
             onClick={handleScroll}
-            className="relative z-20 bg-[#ED0E64] cursor-pointer text-white px-6 py-3 rounded-lg font-[600] hover:bg-pink-700 transition mb-6 flex items-center gap-2 shadow-lg"
+            className="bg-[#ED0E64] cursor-pointer text-white px-6 py-3 rounded-lg font-[600] hover:bg-pink-700 transition mb-6 flex items-center gap-2 shadow-lg"
             animate={controls}
             initial={false}
           >
             Explore <MdKeyboardDoubleArrowRight />
           </motion.button>
-
-          {/* Rocket Cloud Trail */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={buttonVisible ? {
-              opacity: [0.6, 0.4, 0.1, 0],
-              scale: [1, 1.5, 2],
-              y: [0, -10, -20]
-            } : {}}
-            transition={{ duration: 1.1, ease: "easeOut" }}
-            className="absolute top-[58%] left-1/2 -translate-x-1/2 w-32 h-32 bg-pink-300 blur-3xl rounded-full z-10"
-          />
-
-          {/* Smoke trails */}
-          {buttonVisible && [1, 2, 3].map((_, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0 }}
-              animate={{
-                opacity: [0.4, 0.2, 0],
-                scale: [1, 1.4, 2],
-                y: [0, -10 - i * 5, -20 - i * 5]
-              }}
-              transition={{ delay: i * 0.1, duration: 1, ease: "easeOut" }}
-              className="absolute top-[58%] left-1/2 -translate-x-1/2 w-20 h-20 bg-pink-200 blur-2xl rounded-full z-0"
-            />
-          ))}
         </div>
 
         <div className="flex justify-center lg:justify-start space-x-4 text-xl text-pink-600 mt-4">
@@ -296,7 +264,6 @@ const Hero = ({ scrollToRef }) => {
             </motion.a>
           ))}
         </div>
-
       </motion.div>
 
       {/* RIGHT Image Animation */}

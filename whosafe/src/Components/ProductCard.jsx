@@ -52,10 +52,17 @@ const ProductCard = ({ product }) => {
         </span>
 
         <img
-          src={product?.images?.[0]?.url ? `${API}${product.images[0].url}` : '/default-product.jpg'}
+          src={
+            product?.images?.[0]?.url
+              ? product.images[0].url.startsWith('http')
+                ? product.images[0].url
+                : `${API}${product.images[0].url}`
+              : '/default-product.jpg'
+          }
           alt={product?.images?.[0]?.alt || product.name}
           className="w-full h-auto object-contain sm:h-[260px] p-4"
         />
+
       </div>
 
       {/* Product Info */}

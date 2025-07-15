@@ -135,12 +135,10 @@ const HowItWorks = () => {
               animate={{ scale: 1 }}
               transition={{ delay: 0.4 + index * 0.2, type: "spring", stiffness: 200 }}
             >
-              <motion.img
+              <img
                 src={step.icon}
                 alt={step.title}
                 className="w-14 h-14"
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               />
             </motion.div>
             <h3 className="font-semibold text-lg mt-2">{step.title}</h3>
