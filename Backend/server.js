@@ -31,7 +31,10 @@ connectDB();
 app.use(cors({
   origin: ['http://localhost:5173', 'https://whosafe-frontend.onrender.com'],
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
 
 app.use(morgan("dev"));
 app.use(express.json());
