@@ -28,7 +28,11 @@ dotenv.config();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://whosafe-frontend.onrender.com'],
+  credentials: true,
+}));
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use("/img", express.static(path.join(process.cwd(), "public/img")));
