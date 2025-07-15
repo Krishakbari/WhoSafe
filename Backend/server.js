@@ -28,20 +28,13 @@ dotenv.config();
 connectDB();
 
 // Middleware
-
-const allowedOrigins = ['http://localhost:5173', 'https://whosafe-frontend.onrender.com'];
-
 app.use(cors({
-  origin: allowedOrigins,
+  origin: ['http://localhost:5173', 'https://whosafe-frontend.onrender.com'],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
-// Handle preflight requests
-app.options('*', cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
+
 
 app.use(morgan("dev"));
 app.use(express.json());
