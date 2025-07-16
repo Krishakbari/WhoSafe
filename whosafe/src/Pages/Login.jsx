@@ -288,9 +288,9 @@ const Login = () => {
                       localStorage.setItem("auth", JSON.stringify(res.data));
 
                       if (!user.phone || !user.area || !user.pincode || !user.address1 || !user.address2) {
-                        window.location.href = "/update-profile";
+                        navigate("/update-profile");
                       } else {
-                        window.location.href = "/";
+                        navigate("/");
                       }
                     } else {
                       toast.error(res.data.message);
