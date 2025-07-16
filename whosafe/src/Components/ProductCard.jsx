@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
       }
     }
   };
-
+  console.log("Image URL:", product.images[0].url);
   return (
     <div className="bg-white p-4 sm:p-6 max-w-7xl mx-auto flex flex-col sm:flex-row items-center xl:gap-20">
       {/* Product Image */}
