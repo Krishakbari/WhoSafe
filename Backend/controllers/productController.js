@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import productModel from "../models/productModel.js"
 import ImageModel from "../models/imageModel.js"
-
+import cartModel from "../models/cartModel.js";
 
 // create product
 export const createProductController = async (req, res) => {
@@ -116,11 +116,77 @@ export const getSingleProductController = async (req, res) => {
 
 
 export const deleteProductBySlugController = async (req, res) => {
+  try {
+    const { slug } = req.params;
+
+    // 1. Find the product with images
+    const product = await productModel.findOne({ slug }).populate('images');
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    const productId = product._id; // needed for cart cleanup
+    console.log("Deleting product ID:", productId);
+
+    // ✅ 2. Remove product from all user carts
+    await cartModel.updateMany(
+      { "items.product": productId },
+      { $pull: { items: { product: productId } } }
+    );
+
+    // ✅ 3. Delete physical image files
+    if (product.images?.length > 0) {
+      for (const image of product.images) {
+        const imagePath = path.join(process.cwd(), 'public', image.url);
+        if (fs.existsSync(imagePath)) {
+          try {
+            fs.unlinkSync(imagePath);
+            console.log(`Deleted file: ${imagePath}`);
+          } catch (fileError) {
+            console.error(`Error deleting file ${imagePath}:`, fileError);
+          }
+        }
+      }
+
+      // ✅ 4. Delete image records from DB
+      await ImageModel.deleteMany({ product: productId });
+    }
+
+    // ✅ 5. Delete the product itself
+    await productModel.deleteOne({ _id: productId });
+
+    res.status(200).json({
+      success: true,
+      message: "Product, images, and related cart items deleted successfully",
+    });
+
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    res.status(500).json({
+      success: false,
+      message: "Error deleting product",
+      error: error.message,
+    });
+  }
+};
+
+
+
+export const updateProductController = async (req, res) => {
     try {
         const { slug } = req.params;
+        const {
+            name,
+            description,
+            price,
+            rating,
+            reviews,
+        } = req.body;
 
-        // Find the product first to get image references
-        const product = await productModel.findOne({ slug }).populate('images');
+        const product = await productModel.findOne({ slug });
 
         if (!product) {
             return res.status(404).json({
@@ -129,116 +195,55 @@ export const deleteProductBySlugController = async (req, res) => {
             });
         }
 
-        // Delete physical image files from server
-        if (product.images && product.images.length > 0) {
-            for (const image of product.images) {
+        // Update fields
+        product.name = name || product.name;
+        product.description = description || product.description;
+        product.price = price || product.price;
+        product.rating = rating || product.rating;
+        product.reviews = reviews || product.reviews;
+        product.slug = slugify(product.name);
+
+        // If new images uploaded, remove old images and save new ones
+        if (req.files?.length > 0) {
+            // Delete old images from filesystem
+            const oldImages = await ImageModel.find({ product: product._id });
+            for (const image of oldImages) {
                 const imagePath = path.join(process.cwd(), 'public', image.url);
-
-                // Check if file exists before deleting
-                if (fs.existsSync(imagePath)) {
-                    try {
-                        fs.unlinkSync(imagePath);
-                        console.log(`Deleted file: ${imagePath}`);
-                    } catch (fileError) {
-                        console.error(`Error deleting file ${imagePath}:`, fileError);
-                    }
-                }
+                if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
             }
-        }
 
-        // Delete image records from database
-        if (product.images && product.images.length > 0) {
+            // Remove old image records
             await ImageModel.deleteMany({ product: product._id });
+
+            // Save new images
+            const newImages = await Promise.all(
+                req.files.map((f, idx) =>
+                    ImageModel.create({
+                        product: product._id,
+                        url: `/img/${f.filename}`,
+                        alt: `${product.name} photo ${idx + 1}`,
+                        order: idx,
+                    })
+                )
+            );
+
+            product.images = newImages.map(img => img._id);
         }
 
-        // Delete the product
-        await productModel.findOneAndDelete({ slug });
+        await product.save();
 
         res.status(200).json({
             success: true,
-            message: "Product and associated images deleted successfully",
+            message: "Product updated successfully",
+            product,
         });
 
     } catch (error) {
-        console.error('Error deleting product:', error);
+        console.error('Error updating product:', error);
         res.status(500).json({
             success: false,
-            message: "Error deleting product",
+            message: "Error updating product",
             error: error.message,
         });
     }
-};
-
-
-export const updateProductController = async (req, res) => {
-  try {
-    const { slug } = req.params;
-    const {
-      name,
-      description,
-      price,
-      rating,
-      reviews,
-    } = req.body;
-
-    const product = await productModel.findOne({ slug });
-
-    if (!product) {
-      return res.status(404).json({
-        success: false,
-        message: "Product not found",
-      });
-    }
-
-    // Update fields
-    product.name = name || product.name;
-    product.description = description || product.description;
-    product.price = price || product.price;
-    product.rating = rating || product.rating;
-    product.reviews = reviews || product.reviews;
-    product.slug = slugify(product.name);
-
-    // If new images uploaded, remove old images and save new ones
-    if (req.files?.length > 0) {
-      // Delete old images from filesystem
-      const oldImages = await ImageModel.find({ product: product._id });
-      for (const image of oldImages) {
-        const imagePath = path.join(process.cwd(), 'public', image.url);
-        if (fs.existsSync(imagePath)) fs.unlinkSync(imagePath);
-      }
-
-      // Remove old image records
-      await ImageModel.deleteMany({ product: product._id });
-
-      // Save new images
-      const newImages = await Promise.all(
-        req.files.map((f, idx) =>
-          ImageModel.create({
-            product: product._id,
-            url: `/img/${f.filename}`,
-            alt: `${product.name} photo ${idx + 1}`,
-            order: idx,
-          })
-        )
-      );
-
-      product.images = newImages.map(img => img._id);
-    }
-
-    await product.save();
-
-    res.status(200).json({
-      success: true,
-      message: "Product updated successfully",
-      product,
-    });
-
-  } catch (error) {
-    console.error('Error updating product:', error);
-    res.status(500).json({
-      success: false,
-      message: "Error updating product",
-      error: error.message,
-    });
-  }
 };

@@ -1,7 +1,6 @@
 import cartModel from "../models/cartModel.js";
 import productModel from "../models/productModel.js";
 
-
 // Get user's cart
 export const getCartController = async (req, res) => {
   try {
@@ -10,25 +9,36 @@ export const getCartController = async (req, res) => {
       .populate({
         path: "items.product",
         populate: {
-          path: "images", // populate images of the product
+          path: "images",
           model: "ProductImage",
         },
       });
 
     if (!cart) return res.status(200).json({ items: [], total: 0 });
 
-    const total = cart.items.reduce((acc, item) => {
-      return acc + item.product.price * item.quantity;
-    }, 0);
+    // Filter out invalid products (missing or malformed)
+    const cleanedItems = cart.items.filter(
+      (item) => item.product && typeof item.product.price === "number"
+    );
 
-    res.status(200).json({ items: cart.items, total });
+    if (cleanedItems.length !== cart.items.length) {
+      cart.items = cleanedItems;
+      await cart.save();
+    }
+
+    const total = cleanedItems.reduce(
+      (acc, item) => acc + item.product.price * item.quantity,
+      0
+    );
+
+    return res.status(200).json({ items: cleanedItems, total });
   } catch (err) {
-    console.error("Fetch cart error:", err);
-    res.status(500).json({ error: "Failed to fetch cart" });
+    return res.status(500).json({
+      error: "Failed to fetch cart",
+      message: err.message,
+    });
   }
 };
-
-
 
 // Add item to cart
 export const addToCartController = async (req, res) => {
@@ -41,7 +51,9 @@ export const addToCartController = async (req, res) => {
       cart = new cartModel({ user: req.user._id, items: [] });
     }
 
-    const existingItem = cart.items.find((item) => item.product.equals(productId));
+    const existingItem = cart.items.find((item) =>
+      item.product.equals(productId)
+    );
 
     if (existingItem) {
       existingItem.quantity += quantity;
@@ -64,7 +76,9 @@ export const removeFromCartController = async (req, res) => {
     const cart = await cartModel.findOne({ user: req.user._id });
     if (!cart) return res.status(404).json({ error: "Cart not found" });
 
-    cart.items = cart.items.filter((item) => !item.product.equals(productId));
+    cart.items = cart.items.filter(
+      (item) => !item.product.equals(productId)
+    );
     await cart.save();
 
     res.status(200).json({ success: true, message: "Item removed", cart });
@@ -73,7 +87,7 @@ export const removeFromCartController = async (req, res) => {
   }
 };
 
-// PATCH /cart/:productId – update quantity
+// Update quantity of cart item
 export const updateQuantityController = async (req, res) => {
   const { productId } = req.params;
   const { quantity } = req.body;
@@ -82,7 +96,7 @@ export const updateQuantityController = async (req, res) => {
     const cart = await cartModel.findOne({ user: req.user._id }).populate({
       path: "items.product",
       populate: {
-        path: "images", // ✅ nested populate
+        path: "images",
         model: "ProductImage",
       },
     });
@@ -91,23 +105,24 @@ export const updateQuantityController = async (req, res) => {
       return res.status(404).json({ error: "Cart not found" });
     }
 
-    const item = cart.items.find((item) => item.product._id.equals(productId));
+    const item = cart.items.find(
+      (item) => item.product && item.product._id.equals(productId)
+    );
 
-    if (!item) {
+    if (!item || !item.product) {
       return res.status(404).json({ error: "Product not found in cart" });
     }
 
     item.quantity = quantity < 1 ? 1 : quantity;
     await cart.save();
 
-    // ✅ Recalculate total
-    const total = cart.items.reduce((acc, item) => {
-      return acc + item.product.price * item.quantity;
-    }, 0);
+    const total = cart.items.reduce(
+      (acc, item) => acc + (item.product?.price || 0) * item.quantity,
+      0
+    );
 
     res.status(200).json({ success: true, message: "Quantity updated", cart, total });
   } catch (err) {
-    console.error("Quantity update error:", err);
     res.status(500).json({ error: "Could not update quantity" });
   }
 };
