@@ -34,6 +34,7 @@
 // export default OurSuccess;
 
 
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import User from "../assets/Users.png";
@@ -41,64 +42,23 @@ import Success from "../assets/Success.png";
 
 // Success stats
 const stats = [
-  {
-    image: User,
-    number: "25K+",
-    label: "Happy Customers",
-  },
-  {
-    image: Success,
-    number: "85%",
-    label: "Customer Retention Rate",
-  },
-  {
-    image: User,
-    number: "10K+",
-    label: "Watching in Shop",
-  },
-  {
-    image: Success,
-    number: "98%",
-    label: "On-Time Delivery",
-  },
-  {
-    image: User,
-    number: "4.9/5",
-    label: "Average User Rating",
-  },
-  {
-    image: Success,
-    number: "120+",
-    label: "Countries Served",
-  },
-  {
-    image: User,
-    number: "60%",
-    label: "Monthly Active Users",
-  },
-  {
-    image: Success,
-    number: "30K+",
-    label: "Total Orders",
-  },
-  {
-    image: User,
-    number: "40%",
-    label: "Revenue Growth (YoY)",
-  },
-  {
-    image: Success,
-    number: "100+",
-    label: "Team Members Worldwide",
-  },
+  { image: User, number: "25K+", label: "Happy Customers" },
+  { image: Success, number: "85%", label: "Customer Retention Rate" },
+  { image: User, number: "10K+", label: "Watching in Shop" },
+  { image: Success, number: "98%", label: "On-Time Delivery" },
+  { image: User, number: "4.9/5", label: "Average User Rating" },
+  { image: Success, number: "120+", label: "Countries Served" },
+  { image: User, number: "60%", label: "Monthly Active Users" },
+  { image: Success, number: "30K+", label: "Total Orders" },
+  { image: User, number: "40%", label: "Revenue Growth (YoY)" },
+  { image: Success, number: "100+", label: "Team Members Worldwide" },
 ];
 
 const OurSuccess = () => {
   const loopStats = [...stats, ...stats, ...stats];
 
   return (
-    <section className="bg-[#474747] text-white py-20 overflow-hidden relative">
-      {/* Keyframes for infinite sliding */}
+    <section className="bg-[#474747] text-white py-16 sm:py-20 overflow-hidden relative">
       <style>{`
         @keyframes slideLoop {
           0% { transform: translateX(0); }
@@ -106,9 +66,9 @@ const OurSuccess = () => {
         }
       `}</style>
 
-      <div className="text-center">
+      <div className="text-center px-4 sm:px-0">
         <motion.h2
-          className="text-3xl font-bold mb-4"
+          className="text-xl sm:text-3xl font-bold mb-3 sm:mb-4"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, type: "spring" }}
@@ -117,7 +77,7 @@ const OurSuccess = () => {
         </motion.h2>
 
         <motion.p
-          className="text-base text-gray-300 mb-12 max-w-xl mx-auto"
+          className="text-sm sm:text-base text-gray-300 mb-10 sm:mb-12 max-w-md sm:max-w-xl mx-auto"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
@@ -125,10 +85,10 @@ const OurSuccess = () => {
           Our success is built on a foundation of trust, innovation, and relentless commitment to excellence.
         </motion.p>
 
-        {/* Looping Carousel */}
+        {/* Scrolling Carousel */}
         <div className="relative overflow-hidden w-full">
           <div
-            className="flex gap-8 w-max"
+            className="flex gap-4 sm:gap-8 w-max"
             style={{
               animation: 'slideLoop 50s linear infinite',
             }}
@@ -141,12 +101,13 @@ const OurSuccess = () => {
                   boxShadow: "0px 8px 20px rgba(255, 255, 255, 0.3)"
                 }}
                 transition={{ duration: 0.3 }}
-                className="flex flex-col items-center bg-[#5A5A5A] px-10 py-8 rounded-2xl shadow-xl min-w-[280px] cursor-pointer"
+                className="flex flex-col items-center bg-[#5A5A5A] px-4 py-5 sm:px-6 sm:py-6 rounded-2xl shadow-lg min-w-[160px] sm:min-w-[220px] cursor-pointer"
+
               >
                 <img
                   src={item.image}
                   alt="stat icon"
-                  className="w-16 h-16 mb-4 select-none pointer-events-none"
+                  className="w-8 h-8 sm:w-12 sm:h-12 mb-2 sm:mb-3 select-none pointer-events-none"
                   style={{
                     userSelect: "none",
                     WebkitUserDrag: "none",
@@ -155,8 +116,8 @@ const OurSuccess = () => {
                   draggable="false"
                 />
 
-                <p className="text-3xl font-bold">{item.number}</p>
-                <p className="text-sm mt-2 text-gray-300">{item.label}</p>
+                <p className="text-lg sm:text-2xl font-bold">{item.number}</p>
+                <p className="text-[12px] sm:text-xs mt-1 sm:mt-1.5 text-gray-300 text-center">{item.label}</p>
               </motion.div>
             ))}
           </div>

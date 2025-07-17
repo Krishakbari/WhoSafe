@@ -111,8 +111,8 @@ const HowToRegister = () => {
           className="text-2xl font-bold mb-2"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, delay: 0.4 }}
+          viewport={{ once: false, amount: 0.5 }}
         >
           How to register?
         </motion.h2>
@@ -120,23 +120,27 @@ const HowToRegister = () => {
           className="text-sm text-gray-500"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 1, delay: 0.6 }}
+          viewport={{ once: false, amount: 0.5 }}
         >
           Getting started is easy! Follow these simple steps
         </motion.p>
       </div>
 
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row gap-20 items-start">
-        {/* Left image (no animation for performance) */}
-        <img
+        {/* ✅ Left Image with Animation */}
+        <motion.img
           src={Register}
           alt="Register Illustration"
           className="object-cover h-[450px] w-full md:w-1/2 rounded-lg select-none pointer-events-none"
           draggable={false}
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          viewport={{ once: false, amount: 0.4 }}
         />
 
-        {/* Steps with animation */}
+        {/* Steps with Animation */}
         <div className="space-y-8 w-full md:w-1/2">
           {steps.map((step, index) => (
             <motion.div
@@ -147,8 +151,12 @@ const HowToRegister = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: false, amount: 0.4 }}
             >
-              <img src={step.image} alt="" className="w-10 h-10 select-none pointer-events-none"
-                draggable={false} />
+              <img
+                src={step.image}
+                alt=""
+                className="w-10 h-10 select-none pointer-events-none"
+                draggable={false}
+              />
               <div>
                 <h3 className="text-pink-600 font-[500]">{step.title}</h3>
                 <p className="text-sm text-gray-700 mt-1">{step.description}</p>
