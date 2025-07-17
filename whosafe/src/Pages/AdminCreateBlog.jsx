@@ -55,7 +55,7 @@ const AdminCreateBlog = () => {
     };
 
     return (
-        <div className="max-w-3xl mx-auto py-10 px-4 font-[Nunito Sans]">
+        <div className="max-w-3xl mx-auto py-10 px-4 pt-28 font-[Nunito Sans]">
             <h2 className="text-2xl font-bold mb-6 text-center text-pink-600">Create New Blog</h2>
 
             {message && <p className="text-center text-green-600 mb-4">{message}</p>}

@@ -57,6 +57,7 @@ function Layout({ children }) {
 
 function App() {
   return (
+     <div className="overflow-x-hidden">
     <BrowserRouter>
       <ScrollToTop />
       <Layout>
@@ -94,6 +95,7 @@ function App() {
       </Layout>
       <Toaster />
     </BrowserRouter>
+    </div>
   );
 }
 

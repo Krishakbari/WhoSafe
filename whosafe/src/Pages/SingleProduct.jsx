@@ -127,7 +127,13 @@ const SingleProduct = () => {
                 {/* Left: Preview + Thumbs */}
                 <div>
                     <div className="rounded-lg overflow-hidden mb-4">
-                        <img src={previewImg} alt="Preview" className="w-full h-[600px] rounded-md object-contain" />
+                        <img
+                            src={previewImg}
+                            alt="Preview"
+                            className="w-full h-[600px] rounded-md object-contain"
+                            draggable="false"
+                            onContextMenu={(e) => e.preventDefault()}
+                        />
                     </div>
                     <div className="flex items-center justify-center gap-4">
                         <button onClick={handlePrev} className="p-2 rounded-full hover:bg-gray-100">
@@ -146,7 +152,11 @@ const SingleProduct = () => {
                                             setPreviewImg(`${API}${img.url}`);
                                             setCurrentIndex(actualIndex);
                                         }}
+                                        draggable="false"
+                                        onContextMenu={(e) => e.preventDefault()}
                                     />
+
+
                                 );
                             })}
 

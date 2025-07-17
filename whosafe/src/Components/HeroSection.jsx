@@ -226,7 +226,7 @@ const Hero = ({ scrollToRef }) => {
         viewport={{ once: false, amount: 0.3 }}
         className="w-full lg:w-1/2 flex flex-col justify-center items-center lg:items-start px-6 lg:px-20 text-center lg:text-left"
       >
-        <h1 className="text-3xl md:text-[40px] xl:text-[60px] font-[500] text-gray-900 mb-6 leading-tight">
+        <h1 className="mt-8 sm:mt-0 text-3xl md:text-[40px] xl:text-[60px] font-[500] text-gray-900 mb-6 leading-tight">
           Freedom Without <br />
           <span className="text-pink-600">Fear</span>
         </h1>
@@ -277,12 +277,16 @@ const Hero = ({ scrollToRef }) => {
         <img
           src={TransWoman}
           alt="Background Shape"
-          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 lg:-translate-x-0 lg:left-auto lg:right-5 w-[400px] sm:w-[500px] lg:w-[600px] xl:w-[500px] z-0 pointer-events-none"
+          draggable="false"
+          onContextMenu={(e) => e.preventDefault()}
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 lg:-translate-x-0 lg:left-auto lg:right-5 w-[400px] sm:w-[500px] lg:w-[600px] xl:w-[500px] z-0 pointer-events-none select-none"
         />
         <img
           src={Woman}
           alt="Woman"
-          className="w-[300px] sm:w-[400px] md:-left-10 md:w-[500px] lg:w-[650px] xl:w-[900px] object-contain relative z-10"
+          draggable="false"
+          onContextMenu={(e) => e.preventDefault()}
+          className="w-[300px] sm:w-[400px] md:-left-10 md:w-[500px] lg:w-[650px] xl:w-[900px] object-contain relative z-10 select-none"
         />
       </motion.div>
     </section>

@@ -112,7 +112,8 @@ const JewelryHeroSection = () => {
         <motion.img
           src={GirlIllustration}
           alt="Girl"
-          className="absolute bottom-0 md:-bottom-16 -left-10 md:left-0 w-40 xs:w-24 sm:w-50 md:w-40 lg:w-[225px] z-10"
+          className="absolute bottom-0 md:-bottom-16 -left-10 md:left-0 w-40 xs:w-24 sm:w-50 md:w-40 lg:w-[225px] z-10 select-none pointer-events-none"
+          draggable={false}
           initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 1.2, type: "spring", stiffness: 80 }}
@@ -120,7 +121,8 @@ const JewelryHeroSection = () => {
         <motion.img
           src={thumbnails[selectedIndex]}
           alt="Main Necklace"
-          className="relative z-20 w-40 sm:w-56 md:w-[287px] -top-15"
+          className="relative z-20 w-40 sm:w-56 md:w-[287px] -top-15 select-none pointer-events-none"
+          draggable={false}
           animate={{ y: [0, -10, 0] }}
           transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
         />
@@ -178,7 +180,8 @@ const JewelryHeroSection = () => {
               <img
                 src={prod}
                 alt={`Product ${i + 1}`}
-                className={`${i === 1 ? "w-18 h-24" : "w-14 h-20"} object-contain rounded-lg`}
+                className={`${i === 1 ? "w-18 h-24" : "w-14 h-20"} object-contain rounded-lg select-none pointer-events-none`}
+                draggable={false}
               />
             </motion.div>
           ))}

@@ -387,7 +387,8 @@ const CartPage = () => {
                 <img
                   src={`${API}${item.product?.images?.[0]?.url || '/img/default.jpg'}`}
                   alt={item.product.name}
-                  className="w-20 h-20 object-contain bg-gray-100 rounded-lg"
+                  className="w-20 h-20 object-contain bg-gray-100 rounded-lg select-none pointer-events-none"
+                  draggable="false"
                 />
                 <div>
                   <h2 className="text-lg font-semibold">{item.product.name}</h2>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FiSearch, FiUser, FiShoppingBag, FiX, FiMenu } from 'react-icons/fi';
 import WLogo from "../assets/WLogo.png";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [auth, setAuth] = useState(null);
   const navigate = useNavigate();
+  const dropdownRef = useRef();
 
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -29,6 +30,19 @@ const Header = () => {
       }
     }
   }, []);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
 
   const handleLogout = () => {
     const stored = JSON.parse(localStorage.getItem("auth"));
@@ -193,7 +207,10 @@ const Header = () => {
                 onClick={() => setShowDropdown(!showDropdown)}
               />
               {showDropdown && (
-                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50">
+                <div
+                  ref={dropdownRef}
+                  className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-md z-50"
+                >
                   {auth ? (
                     <>
                       {isAdmin ? (

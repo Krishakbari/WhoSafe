@@ -182,7 +182,8 @@ const Footer = () => {
 
         <div className="relative max-w-4xl mx-auto flex items-center justify-center px-4">
           <div className="absolute md:-left-25 xl:-left-50 -mt-48">
-            <img src={LeftImage} alt="Left" className="w-50 md:block hidden h-auto object-contain" />
+            <img src={LeftImage} alt="Left" className="w-50 md:block hidden h-auto object-contain select-none pointer-events-none"
+              draggable={false} />
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 z-10">
@@ -203,7 +204,8 @@ const Footer = () => {
           </div>
 
           <div className="absolute bottom-0 md:-right-0 xl:-right-50">
-            <img src={RightImage} alt="Right" className="w-50 md:block hidden h-auto object-contain" />
+            <img src={RightImage} alt="Right" className="w-50 md:block hidden h-auto object-contain select-none pointer-events-none"
+              draggable={false} />
           </div>
         </div>
       </motion.div>

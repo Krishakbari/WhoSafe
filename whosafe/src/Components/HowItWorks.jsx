@@ -138,8 +138,10 @@ const HowItWorks = () => {
               <img
                 src={step.icon}
                 alt={step.title}
-                className="w-14 h-14"
+                className="w-14 h-14 select-none pointer-events-none"
+                draggable="false"
               />
+
             </motion.div>
             <h3 className="font-semibold text-lg mt-2">{step.title}</h3>
             <p className="text-sm text-gray-300 mt-1">{step.description}</p>

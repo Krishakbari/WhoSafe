@@ -146,8 +146,15 @@ const OurSuccess = () => {
                 <img
                   src={item.image}
                   alt="stat icon"
-                  className="w-16 h-16 mb-4"
+                  className="w-16 h-16 mb-4 select-none pointer-events-none"
+                  style={{
+                    userSelect: "none",
+                    WebkitUserDrag: "none",
+                  }}
+                  onContextMenu={(e) => e.preventDefault()}
+                  draggable="false"
                 />
+
                 <p className="text-3xl font-bold">{item.number}</p>
                 <p className="text-sm mt-2 text-gray-300">{item.label}</p>
               </motion.div>

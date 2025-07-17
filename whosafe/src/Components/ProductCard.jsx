@@ -60,7 +60,9 @@ const ProductCard = ({ product }) => {
               : '/default-product.jpg'
           }
           alt={product?.images?.[0]?.alt || product.name}
-          className="w-full h-auto object-contain sm:h-[260px] p-4"
+          className="w-full h-auto object-contain sm:h-[260px] p-4 select-none pointer-events-none"
+          draggable="false"
+          onContextMenu={(e) => e.preventDefault()}
         />
 
       </div>

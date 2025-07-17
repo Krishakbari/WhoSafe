@@ -18,7 +18,7 @@ const MyProfile = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 px-6 py-10 flex justify-center mt-8">
+    <div className="min-h-screen bg-gray-100 px-6 py-10 flex justify-center mt-12">
       <div className="bg-white shadow-xl rounded-xl max-w-md w-full p-6">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">My Profile</h2>
 

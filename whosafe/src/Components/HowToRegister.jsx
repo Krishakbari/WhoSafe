@@ -132,7 +132,8 @@ const HowToRegister = () => {
         <img
           src={Register}
           alt="Register Illustration"
-          className="object-cover h-[450px] w-full md:w-1/2 rounded-lg"
+          className="object-cover h-[450px] w-full md:w-1/2 rounded-lg select-none pointer-events-none"
+          draggable={false}
         />
 
         {/* Steps with animation */}
@@ -146,7 +147,8 @@ const HowToRegister = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
               viewport={{ once: false, amount: 0.4 }}
             >
-              <img src={step.image} alt="" className="w-10 h-10" />
+              <img src={step.image} alt="" className="w-10 h-10 select-none pointer-events-none"
+                draggable={false} />
               <div>
                 <h3 className="text-pink-600 font-[500]">{step.title}</h3>
                 <p className="text-sm text-gray-700 mt-1">{step.description}</p>
