@@ -13,10 +13,20 @@ const CreateProduct = () => {
         reviews: '',
     });
     const [photos, setPhotos] = useState([]);
+    const [previews, setPreviews] = useState([]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setPhotos(files);
+
+        // Generate previews
+        const previewUrls = files.map(file => URL.createObjectURL(file));
+        setPreviews(previewUrls);
     };
 
     const handleSubmit = async (e) => {
@@ -32,7 +42,6 @@ const CreateProduct = () => {
         }
 
         try {
-            console.log([...data.entries()]);
             const res = await axios.post(`${API}/product/create-product`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -41,7 +50,7 @@ const CreateProduct = () => {
             });
 
             alert("Product created!");
-            navigate("/"); // redirect to home or product list
+            navigate("/");
         } catch (err) {
             console.error("Create product error:", err);
             alert("Error creating product");
@@ -65,20 +74,17 @@ const CreateProduct = () => {
                         />
                     </div>
                 ))}
+
                 <div>
                     <label className="block text-sm font-medium mb-2">Upload Photos</label>
-
-                    {/* Hidden file input */}
                     <input
                         id="photos"
                         type="file"
                         accept="image/*"
                         multiple
-                        onChange={(e) => setPhotos(Array.from(e.target.files))}
+                        onChange={handleFileChange}
                         className="hidden"
                     />
-
-                    {/* Styled custom button */}
                     <label
                         htmlFor="photos"
                         className="inline-block cursor-pointer bg-pink-500 hover:bg-pink-600 text-white font-semibold px-4 py-2 rounded-md"
@@ -86,13 +92,24 @@ const CreateProduct = () => {
                         Choose Photos
                     </label>
 
-                    {/* Show selected file names (optional) */}
                     {photos.length > 0 && (
-                        <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
-                            {photos.map((file, index) => (
-                                <li key={index}>{file.name}</li>
-                            ))}
-                        </ul>
+                        <>
+                            <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
+                                {photos.map((file, index) => (
+                                    <li key={index}>{file.name}</li>
+                                ))}
+                            </ul>
+                            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                {previews.map((src, idx) => (
+                                    <img
+                                        key={idx}
+                                        src={src}
+                                        alt={`Preview ${idx}`}
+                                        className="w-full h-48 object-cover rounded shadow"
+                                    />
+                                ))}
+                            </div>
+                        </>
                     )}
                 </div>
 

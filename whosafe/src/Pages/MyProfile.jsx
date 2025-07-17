@@ -3,18 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth'; // Adjust the path if needed
 
 const MyProfile = () => {
-  const [auth] = useAuth();
+  const [auth, , loading] = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth?.user) {
+    if (!loading && !auth?.user) {
       navigate("/login");
     }
-  }, [auth, navigate]);
+  }, [auth, loading, navigate]);
 
-  if (!auth?.user) return null;
+  if (loading || !auth?.user) return null;
 
   const user = auth.user;
+
 
   return (
     <div className="min-h-screen bg-gray-100 px-6 py-10 flex justify-center mt-8">

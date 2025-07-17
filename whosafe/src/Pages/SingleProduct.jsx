@@ -179,10 +179,11 @@ const SingleProduct = () => {
 
                     <div className="flex items-center gap-4 mb-1">
                         <span className="text-2xl font-bold text-pink-600">₹{product.price}</span>
-                        <span className="text-[#D48D3B] px-2 py-1 rounded-full bg-[#FBF3EA] text-sm flex font-medium">
-                            <Star strokeWidth={1.5} />
-                            <span className='ml-1 mt-0.5 text-[16px] font-[500]'>{product.rating || 0}</span>
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <div className="flex">{renderStars()}</div>
+                            <span className="text-sm text-gray-600">({product.rating || 0})</span>
+                        </div>
+
                         <span className="text-[#ED0E64] flex bg-[#EDF0F8] rounded-full px-2 py-1 text-sm">
                             <MessageCircleMore strokeWidth={2} />
                             <span className='ml-1 mt-0.5 text-[16px] font-[600]'>{product.reviews || 0} Reviews</span>

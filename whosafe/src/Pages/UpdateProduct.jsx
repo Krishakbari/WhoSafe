@@ -17,6 +17,7 @@ const UpdateProduct = () => {
 
   const [existingImages, setExistingImages] = useState([]);
   const [newPhotos, setNewPhotos] = useState([]);
+  const [newPreviews, setNewPreviews] = useState([]);
 
   // Fetch existing product
   useEffect(() => {
@@ -116,7 +117,12 @@ const UpdateProduct = () => {
             type="file"
             accept="image/*"
             multiple
-            onChange={(e) => setNewPhotos(Array.from(e.target.files))}
+            onChange={(e) => {
+              const files = Array.from(e.target.files);
+              setNewPhotos(files);
+              const previewUrls = files.map(file => URL.createObjectURL(file));
+              setNewPreviews(previewUrls);
+            }}
             className="hidden"
           />
           <label
@@ -125,13 +131,28 @@ const UpdateProduct = () => {
           >
             Choose Photos
           </label>
+
           {newPhotos.length > 0 && (
-            <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
-              {newPhotos.map((file, index) => (
-                <li key={index}>{file.name}</li>
-              ))}
-            </ul>
+            <>
+              <ul className="mt-2 list-disc list-inside text-sm text-gray-600">
+                {newPhotos.map((file, index) => (
+                  <li key={index}>{file.name}</li>
+                ))}
+              </ul>
+
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {newPreviews.map((src, idx) => (
+                  <img
+                    key={idx}
+                    src={src}
+                    alt={`Preview ${idx}`}
+                    className="w-full h-48 object-cover rounded shadow"
+                  />
+                ))}
+              </div>
+            </>
           )}
+
         </div>
 
         <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-md">
